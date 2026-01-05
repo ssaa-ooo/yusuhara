@@ -16,11 +16,12 @@
             font-family: 'Noto Sans JP', sans-serif;
             background-color: var(--wood-beige);
             color: var(--forest-green);
+            scroll-behavior: smooth;
         }
 
         h1, h2, h3, .serif { font-family: 'Noto Serif JP', serif; }
 
-        /* カスタムアニメーション */
+        /* フェードインアニメーション */
         .page-transition {
             animation: fadeIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
@@ -30,6 +31,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* ヒーロー画像のゆっくりとしたズーム */
         .hero-zoom {
             animation: slowZoom 20s infinite alternate;
         }
@@ -39,12 +41,13 @@
             to { transform: scale(1.1); }
         }
 
-        /* 縦書きテキスト（Tailwindで対応できない部分のみ） */
+        /* 縦書き設定 */
         .vertical-text {
             writing-mode: vertical-rl;
             letter-spacing: 0.3em;
         }
 
+        /* スクロールバー非表示 */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
@@ -56,7 +59,17 @@
         <div class="text-white text-xs tracking-[0.5em] serif animate-pulse">YUSUHARA</div>
     </div>
 
-    <!-- Navigation -->
+    <!-- Mobile Navigation Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 z-[60] bg-[#1a2f23] text-white opacity-0 pointer-events-none transition-all duration-500 flex flex-col items-center justify-center space-y-8 text-xl tracking-[0.4em] serif">
+        <a href="javascript:void(0)" onclick="showPage('home')" class="hover:opacity-50">HOME</a>
+        <a href="javascript:void(0)" onclick="showPage('about')" class="hover:opacity-50">ABOUT</a>
+        <a href="javascript:void(0)" onclick="showPage('architecture')" class="hover:opacity-50">ARCHITECTURE</a>
+        <a href="javascript:void(0)" onclick="showPage('forest')" class="hover:opacity-50">FOREST</a>
+        <a href="javascript:void(0)" onclick="showPage('access')" class="hover:opacity-50">ACCESS</a>
+        <button id="close-menu" class="mt-12 text-xs tracking-widest border border-white/20 px-8 py-3 rounded-full hover:bg-white hover:text-green-900 transition-all">CLOSE</button>
+    </div>
+
+    <!-- Navigation Bar -->
     <nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 md:px-12 py-8 transition-all duration-500" id="navbar">
         <a href="javascript:void(0)" onclick="showPage('home')" class="text-xl md:text-2xl font-bold tracking-tighter serif">YUSUHARA</a>
         
@@ -67,8 +80,8 @@
             <a href="javascript:void(0)" onclick="showPage('access')" class="nav-link hover:opacity-50 transition-opacity">ACCESS</a>
         </div>
 
-        <button class="md:hidden text-current" id="menu-toggle">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16m-7 6h7" stroke-width="1.5"></path></svg>
+        <button class="md:hidden text-current p-2" id="menu-toggle">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16m-7 6h7" stroke-width="1.5" stroke-linecap="round"></path></svg>
         </button>
     </nav>
 
@@ -107,7 +120,7 @@
                 </div>
                 <div class="md:col-span-7 relative">
                     <img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&q=80&w=1200" class="w-full grayscale hover:grayscale-0 transition-all duration-1000 shadow-2xl">
-                    <div class="absolute -bottom-10 -left-10 bg-[#1a2f23] text-white p-12 hidden md:block">
+                    <div class="absolute -bottom-10 -left-10 bg-[#1a2f23] text-white p-12 hidden md:block shadow-2xl">
                         <p class="vertical-text text-xl serif leading-relaxed">共生する、<br>森の哲学。</p>
                     </div>
                 </div>
@@ -121,34 +134,34 @@
                 <h2 class="text-4xl md:text-6xl serif italic">Structural Beauty</h2>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 bg-gray-100 border border-gray-100 shadow-inner">
                 <!-- Card 1 -->
-                <div class="group relative aspect-square overflow-hidden bg-gray-200">
+                <div class="group relative aspect-square overflow-hidden bg-white">
                     <img src="https://images.unsplash.com/photo-1511497584788-8767fe771d85?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center p-12">
-                        <p class="text-white text-xs mb-4 tracking-widest">GALERY</p>
+                    <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center p-12">
+                        <p class="text-white text-[10px] mb-4 tracking-widest opacity-50 uppercase">Gallery</p>
                         <h3 class="text-white text-2xl serif">雲の上のギャラリー</h3>
-                        <div class="w-8 h-[1px] bg-white my-6"></div>
+                        <div class="w-8 h-[1px] bg-white my-6 opacity-30"></div>
                         <p class="text-white/70 text-xs leading-relaxed">伝統的な組木構造を用いた、森と建築の境界線。</p>
                     </div>
                 </div>
                 <!-- Card 2 -->
-                <div class="group relative aspect-square overflow-hidden bg-gray-200">
+                <div class="group relative aspect-square overflow-hidden bg-white">
                     <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center p-12">
-                        <p class="text-white text-xs mb-4 tracking-widest">TOWN HALL</p>
+                    <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center p-12">
+                        <p class="text-white text-[10px] mb-4 tracking-widest opacity-50 uppercase">Town Hall</p>
                         <h3 class="text-white text-2xl serif">梼原町総合庁舎</h3>
-                        <div class="w-8 h-[1px] bg-white my-6"></div>
+                        <div class="w-8 h-[1px] bg-white my-6 opacity-30"></div>
                         <p class="text-white/70 text-xs leading-relaxed">地元の杉材をふんだんに使用し、町民に開かれた交流の場。</p>
                     </div>
                 </div>
                 <!-- Card 3 -->
-                <div class="group relative aspect-square overflow-hidden bg-gray-200">
+                <div class="group relative aspect-square overflow-hidden bg-white">
                     <img src="https://images.unsplash.com/photo-1444491741275-3747c53c99b4?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center p-12">
-                        <p class="text-white text-xs mb-4 tracking-widest">LIBRARY</p>
+                    <div class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-center p-12">
+                        <p class="text-white text-[10px] mb-4 tracking-widest opacity-50 uppercase">Library</p>
                         <h3 class="text-white text-2xl serif">雲の上の図書館</h3>
-                        <div class="w-8 h-[1px] bg-white my-6"></div>
+                        <div class="w-8 h-[1px] bg-white my-6 opacity-30"></div>
                         <p class="text-white/70 text-xs leading-relaxed">森の中にいるような感覚で本に親しめる、地域の知の拠点。</p>
                     </div>
                 </div>
@@ -166,19 +179,19 @@
                     <div class="w-[1px] h-32 bg-white/20"></div>
                     <div class="grid md:grid-cols-3 gap-12 text-left">
                         <div class="space-y-4">
-                            <p class="text-xs font-bold tracking-widest opacity-50">01 / CYCLE</p>
+                            <p class="text-[10px] font-bold tracking-widest opacity-30">01 / CYCLE</p>
                             <h4 class="text-xl serif">循環</h4>
-                            <p class="text-xs text-white/60 leading-relaxed">木を植え、育て、使い、また植える。永遠のサイクルを守り続けます。</p>
+                            <p class="text-[11px] text-white/50 leading-relaxed uppercase tracking-wider">木を植え、育て、使い、また植える。永遠のサイクルを守り続けます。</p>
                         </div>
                         <div class="space-y-4">
-                            <p class="text-xs font-bold tracking-widest opacity-50">02 / WISDOM</p>
+                            <p class="text-[10px] font-bold tracking-widest opacity-30">02 / WISDOM</p>
                             <h4 class="text-xl serif">知恵</h4>
-                            <p class="text-xs text-white/60 leading-relaxed">先人が培った自然との共生術を、現代のテクノロジーで再定義します。</p>
+                            <p class="text-[11px] text-white/50 leading-relaxed uppercase tracking-wider">先人が培った自然との共生術を、現代のテクノロジーで再定義します。</p>
                         </div>
                         <div class="space-y-4">
-                            <p class="text-xs font-bold tracking-widest opacity-50">03 / FUTURE</p>
+                            <p class="text-[10px] font-bold tracking-widest opacity-30">03 / FUTURE</p>
                             <h4 class="text-xl serif">未来</h4>
-                            <p class="text-xs text-white/60 leading-relaxed">次世代に豊かな山を引き継ぐため、持続可能な林業を推進します。</p>
+                            <p class="text-[11px] text-white/50 leading-relaxed uppercase tracking-wider">次世代に豊かな山を引き継ぐため、持続可能な林業を推進します。</p>
                         </div>
                     </div>
                 </div>
@@ -189,7 +202,7 @@
         <section id="page-access" class="page-section hidden pt-40 pb-20 px-6 md:px-24 max-w-7xl mx-auto page-transition">
             <div class="grid md:grid-cols-2 gap-20">
                 <div>
-                    <span class="text-[10px] tracking-[0.4em] text-gray-400 block mb-6">04 / ACCESS</span>
+                    <span class="text-[10px] tracking-[0.4em] text-gray-400 block mb-6 uppercase">04 / Access</span>
                     <h2 class="text-4xl md:text-6xl mb-12 serif italic">Journey</h2>
                     <div class="space-y-12">
                         <div class="border-l border-gray-200 pl-8">
@@ -206,9 +219,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg-gray-100 flex items-center justify-center min-h-[400px]">
-                     <!-- Google Map などのプレースホルダー -->
-                     <p class="text-[10px] tracking-[0.4em] text-gray-400 uppercase italic">Detailed Map</p>
+                <div class="bg-gray-200/50 flex items-center justify-center min-h-[400px] border border-gray-100 rounded-sm">
+                     <p class="text-[10px] tracking-[0.4em] text-gray-400 uppercase italic">Interactive Map Area</p>
                 </div>
             </div>
         </section>
@@ -216,21 +228,24 @@
     </main>
 
     <!-- Footer -->
-    <footer class="py-20 px-6 border-t border-gray-100">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center space-y-8 md:space-y-0 text-[10px] tracking-[0.3em] font-bold">
-            <div class="serif text-lg">YUSUHARA</div>
-            <div class="flex space-x-8">
-                <a href="#" class="hover:opacity-50">INSTAGRAM</a>
-                <a href="#" class="hover:opacity-50">FACEBOOK</a>
-                <a href="#" class="hover:opacity-50">TOWN GOV</a>
+    <footer class="py-20 px-6 border-t border-gray-100 bg-[#f8f6f2]">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center space-y-12 md:space-y-0 text-[10px] tracking-[0.3em] font-bold">
+            <div class="serif text-xl">YUSUHARA</div>
+            <div class="flex space-x-12">
+                <a href="#" class="hover:opacity-50 transition-opacity uppercase">Instagram</a>
+                <a href="#" class="hover:opacity-50 transition-opacity uppercase">Facebook</a>
+                <a href="#" class="hover:opacity-50 transition-opacity uppercase">Town Gov</a>
             </div>
-            <div class="text-gray-400">&copy; 2024 YUSUHARA TOWN</div>
+            <div class="text-gray-400 uppercase font-light">&copy; 2024 YUSUHARA TOWN</div>
         </div>
     </footer>
 
     <script>
         // --- Page Navigation System ---
         function showPage(pageId) {
+            // Close mobile menu if open
+            closeMobileMenu();
+
             // Hide all sections
             document.querySelectorAll('.page-section').forEach(section => {
                 section.classList.add('hidden');
@@ -240,7 +255,7 @@
             const target = document.getElementById('page-' + pageId);
             if (target) {
                 target.classList.remove('hidden');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                window.scrollTo({ top: 0, behavior: 'instant' });
             }
 
             // Update Navigation Style
@@ -252,7 +267,6 @@
             const isForest = pageId === 'forest';
             const navbar = document.getElementById('navbar');
             
-            // Adjust navbar color based on page
             if (isHome || isForest) {
                 navbar.classList.add('text-white');
                 navbar.classList.remove('text-[#1a2f23]');
@@ -262,36 +276,48 @@
             }
         }
 
+        // --- Mobile Menu ---
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const closeMenu = document.getElementById('close-menu');
+
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+            mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+        });
+
+        function closeMobileMenu() {
+            mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+            mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+        }
+
+        closeMenu.addEventListener('click', closeMobileMenu);
+
         // --- Loader Logic ---
         window.addEventListener('load', () => {
             const loader = document.getElementById('loader');
             setTimeout(() => {
                 loader.style.opacity = '0';
                 setTimeout(() => loader.style.display = 'none', 700);
-                showPage('home'); // Initial page
-            }, 1000);
+                showPage('home');
+            }, 800);
         });
 
         // --- Navbar Scroll Logic ---
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
-            const pageId = document.querySelector('.page-section:not(.hidden)').id.replace('page-', '');
+            const currentSection = document.querySelector('.page-section:not(.hidden)');
+            if (!currentSection) return;
+            const pageId = currentSection.id.replace('page-', '');
             
             if (window.scrollY > 50) {
-                navbar.classList.add('py-4', 'backdrop-blur-sm');
+                navbar.classList.add('py-4', 'backdrop-blur-md');
                 if (pageId !== 'home' && pageId !== 'forest') {
                     navbar.classList.add('bg-[#f4f1ea]/80');
                 }
             } else {
-                navbar.classList.remove('py-4', 'backdrop-blur-sm', 'bg-[#f4f1ea]/80');
+                navbar.classList.remove('py-4', 'backdrop-blur-md', 'bg-[#f4f1ea]/80');
             }
-        });
-
-        // Mobile Menu Toggle
-        const menuToggle = document.getElementById('menu-toggle');
-        menuToggle.addEventListener('click', () => {
-            // ここにモバイル用メニュー展開ロジックを追加可能
-            alert('Navigation Menu (Simplified for Demo)');
         });
     </script>
 </body>
