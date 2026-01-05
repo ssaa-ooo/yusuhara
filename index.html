@@ -11,6 +11,7 @@
             --forest-green: #1a2f23;
             --wood-beige: #f4f1ea;
             --accent-gold: #c5a059;
+            --alert-red: #8b2d1f;
         }
 
         body {
@@ -20,7 +21,7 @@
             scroll-behavior: smooth;
         }
 
-        h1, h2, h3, .serif { font-family: 'Noto Serif JP', serif; }
+        h1, h2, h3, h4, .serif { font-family: 'Noto Serif JP', serif; }
 
         .page-transition {
             animation: fadeIn 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
@@ -45,15 +46,22 @@
             letter-spacing: 0.4em;
         }
 
-        .hover-lift {
-            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-        .hover-lift:hover {
-            transform: translateY(-10px);
-        }
-
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* プログレスバー風の装飾 */
+        .stat-bar {
+            height: 4px;
+            background: #ddd;
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-bar-fill {
+            height: 100%;
+            background: var(--forest-green);
+            transition: width 2s ease-out;
+        }
+        .stat-bar-fill.alert { background: var(--alert-red); }
     </style>
 </head>
 <body class="overflow-x-hidden selection:bg-green-900 selection:text-white">
@@ -66,9 +74,10 @@
     <!-- Mobile Navigation Overlay -->
     <div id="mobile-menu" class="fixed inset-0 z-[60] bg-[#1a2f23] text-white opacity-0 pointer-events-none transition-all duration-500 flex flex-col items-center justify-center space-y-8 text-xl tracking-[0.4em] serif">
         <a href="javascript:void(0)" onclick="showPage('home')" class="hover:opacity-50">HOME</a>
+        <a href="javascript:void(0)" onclick="showPage('status')" class="hover:opacity-50 text-[#c5a059]">STATUS & CHALLENGES</a>
         <a href="javascript:void(0)" onclick="showPage('vision')" class="hover:opacity-50">VISION</a>
         <a href="javascript:void(0)" onclick="showPage('lab')" class="hover:opacity-50">INNOVATION LAB</a>
-        <a href="javascript:void(0)" onclick="showPage('todo')" class="hover:opacity-50 text-[#c5a059]">ROADMAP (INNER)</a>
+        <a href="javascript:void(0)" onclick="showPage('todo')" class="hover:opacity-50">ROADMAP (INNER)</a>
         <a href="javascript:void(0)" onclick="showPage('join')" class="hover:opacity-50">INVEST & JOIN</a>
         <button id="close-menu" class="mt-12 text-[10px] tracking-widest border border-white/20 px-10 py-4 rounded-full hover:bg-white hover:text-green-900 transition-all">CLOSE</button>
     </div>
@@ -77,11 +86,12 @@
     <nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 md:px-12 py-10 transition-all duration-500" id="navbar">
         <a href="javascript:void(0)" onclick="showPage('home')" class="text-xl md:text-2xl font-bold tracking-tighter serif">YUSUHARA FOREST</a>
         
-        <div class="hidden lg:flex space-x-12 text-[10px] font-bold tracking-[0.3em] items-center">
+        <div class="hidden lg:flex space-x-10 text-[10px] font-bold tracking-[0.3em] items-center">
+            <a href="javascript:void(0)" onclick="showPage('status')" class="nav-link hover:opacity-50 transition-opacity">STATUS</a>
             <a href="javascript:void(0)" onclick="showPage('vision')" class="nav-link hover:opacity-50 transition-opacity">VISION</a>
             <a href="javascript:void(0)" onclick="showPage('lab')" class="nav-link hover:opacity-50 transition-opacity">INNOVATION LAB</a>
-            <a href="javascript:void(0)" onclick="showPage('todo')" class="nav-link hover:opacity-50 transition-opacity text-[#c5a059]">ROADMAP</a>
-            <a href="javascript:void(0)" onclick="showPage('join')" class="bg-white text-green-900 px-6 py-3 rounded-full hover:bg-green-900 hover:text-white transition-all">INVEST & JOIN</a>
+            <a href="javascript:void(0)" onclick="showPage('todo')" class="nav-link hover:opacity-50 transition-opacity opacity-50">ROADMAP</a>
+            <a href="javascript:void(0)" onclick="showPage('join')" class="bg-[#1a2f23] text-white px-6 py-3 rounded-full hover:opacity-80 transition-all">INVEST & JOIN</a>
         </div>
 
         <button class="lg:hidden text-current p-2" id="menu-toggle">
@@ -95,57 +105,132 @@
         <!-- HOME PAGE -->
         <section id="page-home" class="page-section relative h-screen w-full overflow-hidden flex items-center justify-center">
             <div class="absolute inset-0 z-0">
-                <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=2000" class="w-full h-full object-cover hero-zoom">
+                <img src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&q=80&w=2000" class="w-full h-full object-cover hero-zoom">
                 <div class="absolute inset-0 bg-black/40"></div>
             </div>
             <div class="relative z-10 text-white text-center page-transition px-6">
                 <p class="text-[10px] md:text-xs tracking-[0.8em] mb-8 opacity-70 uppercase font-bold">Forestry is People Development</p>
                 <h1 class="text-5xl md:text-8xl font-bold mb-12 leading-tight serif">100年の森林・<br>人づくりプロジェクト</h1>
                 <div class="flex flex-col md:flex-row justify-center items-center space-y-6 md:space-y-0 md:space-x-12">
-                    <a href="javascript:void(0)" onclick="showPage('vision')" class="text-xs tracking-[0.3em] border-b border-white/30 pb-2 hover:border-white transition-all uppercase">The Vision</a>
+                    <a href="javascript:void(0)" onclick="showPage('status')" class="text-xs tracking-[0.3em] border-b border-white/30 pb-2 hover:border-white transition-all uppercase">The Reality</a>
                     <div class="w-12 h-[1px] bg-white/30 hidden md:block"></div>
-                    <a href="javascript:void(0)" onclick="showPage('join')" class="text-xs tracking-[0.3em] border-b border-white/30 pb-2 hover:border-white transition-all uppercase">Join the Future</a>
+                    <a href="javascript:void(0)" onclick="showPage('vision')" class="text-xs tracking-[0.3em] border-b border-white/30 pb-2 hover:border-white transition-all uppercase">The Solution</a>
                 </div>
             </div>
         </section>
 
-        <!-- VISION PAGE -->
+        <!-- STATUS & CHALLENGES PAGE (New Content from PDF) -->
+        <section id="page-status" class="page-section hidden pt-48 pb-32 px-6 md:px-24 max-w-7xl mx-auto page-transition">
+            <div class="mb-24">
+                <span class="text-[10px] tracking-[0.4em] text-gray-400 block mb-6 uppercase">01 / The Reality & Challenges</span>
+                <h2 class="text-4xl md:text-6xl mb-12 serif leading-tight">価値創造サイクルの断絶。</h2>
+                
+                <div class="grid lg:grid-cols-2 gap-20 items-center bg-white p-12 md:p-20 shadow-sm border border-gray-100">
+                    <div>
+                        <h3 class="text-2xl mb-8 serif">再造林率、わずか13%</h3>
+                        <p class="text-sm text-gray-600 leading-loose mb-10">
+                            現在、梼原の森では「切ったまま」になり、植えられない・育たないという負の連鎖が起きています。伐採届と再造林の間に巨大なギャップが存在し、森林資源としての持続可能性が脅かされています。
+                        </p>
+                        <div class="space-y-8">
+                            <div>
+                                <div class="flex justify-between text-[10px] tracking-widest font-bold mb-2">
+                                    <span>CURRENT REFORESTATION RATE</span>
+                                    <span class="text-[#8b2d1f]">13%</span>
+                                </div>
+                                <div class="stat-bar"><div class="stat-bar-fill alert" style="width: 13%"></div></div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-[10px] tracking-widest font-bold mb-2">
+                                    <span>TARGET RATE (2029)</span>
+                                    <span>70%</span>
+                                </div>
+                                <div class="stat-bar"><div class="stat-bar-fill" style="width: 70%"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-8 bg-[#f8f6f2] text-center border border-gray-100">
+                            <p class="text-3xl font-bold serif mb-2">80%</p>
+                            <p class="text-[10px] text-gray-500 tracking-wider">森林の変化を感じている町民</p>
+                        </div>
+                        <div class="p-8 bg-[#f8f6f2] text-center border border-gray-100">
+                            <p class="text-3xl font-bold serif mb-2">64%</p>
+                            <p class="text-[10px] text-gray-500 tracking-wider">健全な森林維持を望む声</p>
+                        </div>
+                        <div class="p-8 bg-[#f8f6f2] text-center border border-gray-100">
+                            <p class="text-3xl font-bold serif mb-2">45%</p>
+                            <p class="text-[10px] text-gray-500 tracking-wider">土砂崩れ防止機能を期待</p>
+                        </div>
+                        <div class="p-8 bg-[#1a2f23] text-white text-center">
+                            <p class="text-[10px] tracking-widest uppercase mb-2">Voice</p>
+                            <p class="text-[9px] leading-relaxed italic opacity-80">「50年先を見定め、長く続く計画を」</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="space-y-12">
+                    <div>
+                        <h4 class="text-xl serif mb-6 flex items-center"><span class="w-6 h-[1px] bg-current mr-4"></span>根本原因の特定</h4>
+                        <p class="text-sm text-gray-600 leading-loose">
+                            なぜ、循環は回らないのか？それは、森林経営の全体を統括し、「切って→使って→植えて→育てる」を一貫管理する**「地域内組織」**が存在しないことにあります。
+                        </p>
+                    </div>
+                    <ul class="space-y-4 text-xs text-gray-500 list-none">
+                        <li class="flex items-start"><span class="font-bold mr-4 text-[#c5a059]">01</span> 事業体の分断と、一貫管理仕組みの不在</li>
+                        <li class="flex items-start"><span class="font-bold mr-4 text-[#c5a059]">02</span> 経営主体による調整・管理機能の欠如</li>
+                        <li class="flex items-start"><span class="font-bold mr-4 text-[#c5a059]">03</span> ビジョン共有と協議の場の不足</li>
+                        <li class="flex items-start"><span class="font-bold mr-4 text-[#c5a059]">04</span> “点”ではなく“面”で捉える経営意識の遅れ</li>
+                    </ul>
+                </div>
+                <div class="bg-[#1a2f23] text-white p-12 flex flex-col justify-center">
+                    <p class="text-[10px] tracking-[0.5em] opacity-40 uppercase mb-8">The Solution</p>
+                    <h3 class="text-3xl serif leading-relaxed mb-8">森林価値を再定義し、<br>多面的な価値創造の<br>プラットフォームへ。</h3>
+                    <div class="w-12 h-[1px] bg-[#c5a059] mb-8"></div>
+                    <p class="text-sm text-white/60 leading-relaxed font-light">
+                        単なる「資源」から「環境・経済・文化・教育・イノベーション」が交差する場へ転換します。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- VISION PAGE (Model Description) -->
         <section id="page-vision" class="page-section hidden pt-48 pb-32 px-6 md:px-24 max-w-7xl mx-auto page-transition">
             <div class="grid lg:grid-cols-12 gap-20 items-start">
                 <div class="lg:col-span-5">
-                    <span class="text-[10px] tracking-[0.4em] text-gray-400 block mb-6 uppercase">01 / Concept</span>
+                    <span class="text-[10px] tracking-[0.4em] text-gray-400 block mb-6 uppercase">02 / The Model</span>
                     <h2 class="text-4xl md:text-6xl mb-12 leading-tight serif">教育投資を、<br>森林経営に応用する。</h2>
+                    <p class="text-sm text-gray-600 leading-loose mb-12 italic border-l-4 border-[#c5a059] pl-6">
+                        「人間と違い、木は自己変革しない。人間がどう活用するかが森林の価値を高める鍵である」
+                    </p>
                     <p class="text-sm text-gray-600 leading-loose mb-8">
-                        神山まるごと高専が築いた「持続可能な人材輩出エコシステム」。私たちはこの仕組みを森林に応用します。
+                        神山まるごと高専が築いた「基金（ファンド）の運用益で恒久的な運営を実現する」モデルを森林へ。初期に資本を厚く集め、その運用益で長期的な再造林コストを賄い、半永久的に続く経済基盤を構築します。
                     </p>
-                    <p class="text-sm text-gray-600 leading-loose mb-12">
-                        森林経営とは、単に木が育つのを待つことではありません。人間の知恵で価値を創造し続ける「超長期的なインフラ投資」です。価値が自己変革しない木を、人間がどう活用するか。その「出口戦略」こそが鍵となります。
-                    </p>
-                    <div class="bg-[#1a2f23] text-white p-10 rounded-sm shadow-xl">
-                        <p class="text-xs tracking-widest text-white/50 mb-4 uppercase">Target KPI 2029</p>
-                        <p class="text-5xl font-bold serif mb-2 text-[#c5a059]">70% <span class="text-lg">以上</span></p>
-                        <p class="text-xs opacity-70">再造林率の達成（現状20%未満からの脱却）</p>
-                    </div>
                 </div>
-                <div class="lg:col-span-7 grid grid-cols-2 gap-4">
-                    <div class="space-y-4 pt-12">
-                        <div class="bg-white p-8 border border-gray-100 shadow-sm hover-lift">
-                            <h3 class="serif text-xl mb-4">森林経営法人</h3>
-                            <p class="text-[10px] text-gray-400 leading-relaxed">地域内経済循環のエンジン役。収益事業と森林管理を一貫して担う営利法人。</p>
-                        </div>
-                        <div class="bg-white p-8 border border-gray-100 shadow-sm hover-lift">
-                            <h3 class="serif text-xl mb-4">ファンド運営法人</h3>
-                            <p class="text-[10px] text-gray-400 leading-relaxed">寄付や投資を集め、透明性を持って再投資する非営利の「資金の器」。</p>
+                <div class="lg:col-span-7 space-y-4">
+                    <div class="bg-white p-10 border border-gray-100 shadow-sm flex items-start gap-8">
+                        <div class="text-[#c5a059] font-serif text-3xl">01</div>
+                        <div>
+                            <h3 class="serif text-xl mb-4">森林経営法人 (営利)</h3>
+                            <p class="text-[11px] text-gray-500 leading-relaxed mb-4">地域内経済循環のエンジン。高付加価値な木材生産、ドローンAI管理、カーボンクレジット創出、観光・一次産業連携など多角的な収益事業を展開。</p>
+                            <span class="text-[9px] bg-[#f4f1ea] px-3 py-1 text-gray-400 tracking-tighter">ECONOMIC IMPACT</span>
                         </div>
                     </div>
-                    <div class="space-y-4">
-                        <div class="bg-white p-8 border border-gray-100 shadow-sm hover-lift">
-                            <h3 class="serif text-xl mb-4">イノベーションラボ</h3>
-                            <p class="text-[10px] text-gray-400 leading-relaxed">木材の新しい「出口」を作るため、異分野と連携し多面的な価値を創造。</p>
+                    <div class="bg-white p-10 border border-gray-100 shadow-sm flex items-start gap-8">
+                        <div class="text-[#c5a059] font-serif text-3xl">02</div>
+                        <div>
+                            <h3 class="serif text-xl mb-4">ファンド運営法人 (非営利)</h3>
+                            <p class="text-[11px] text-gray-500 leading-relaxed mb-4">企業・個人からの寄付、ESG投資を受け入れる「資金の器」。透明性の高い運営を行い、運用益を地域社会（雇用・福祉・教育）へ再投資。</p>
+                            <span class="text-[9px] bg-[#f4f1ea] px-3 py-1 text-gray-400 tracking-tighter">SOCIAL INFRASTRUCTURE</span>
                         </div>
-                        <div class="bg-white p-8 border border-gray-100 shadow-sm hover-lift">
-                            <h3 class="serif text-xl mb-4">人材コミュニティ</h3>
-                            <p class="text-[10px] text-gray-400 leading-relaxed">プロボノや兼業人材が関わり、町外の知恵を梼原に集積させる拠点。</p>
+                    </div>
+                    <div class="bg-white p-10 border border-gray-100 shadow-sm flex items-start gap-8">
+                        <div class="text-[#c5a059] font-serif text-3xl">03</div>
+                        <div>
+                            <h3 class="serif text-xl mb-4">イノベーション・ラボ</h3>
+                            <p class="text-[11px] text-gray-500 leading-relaxed mb-4">異分野（宇宙、AI、建築、ファッション、化学）との連携により、木材の新しい「出口」を創出し、多面的な付加価値を生み出す研究拠点。</p>
+                            <span class="text-[9px] bg-[#f4f1ea] px-3 py-1 text-gray-400 tracking-tighter">FUTURE EXIT STRATEGY</span>
                         </div>
                     </div>
                 </div>
@@ -156,43 +241,39 @@
         <section id="page-lab" class="page-section hidden bg-[#1a2f23] text-white pt-48 pb-32 px-6 page-transition">
             <div class="max-w-7xl mx-auto">
                 <div class="text-center mb-24">
-                    <span class="text-[10px] tracking-[0.4em] text-white/40 block mb-6 uppercase">02 / Innovation</span>
-                    <h2 class="text-4xl md:text-6xl serif leading-tight">梼原フォレスト・<br class="md:hidden">イノベーション・ラボ</h2>
+                    <span class="text-[10px] tracking-[0.4em] text-white/40 block mb-6 uppercase">03 / Innovation</span>
+                    <h2 class="text-4xl md:text-6xl serif leading-tight">Yusuhara Forest<br>Innovation Lab</h2>
                     <p class="mt-8 text-white/60 max-w-2xl mx-auto text-sm leading-loose">
-                        宇宙、AI、建築、ファッション。木材の可能性を異分野と掛け合わせ、日本一の森林イノベーション拠点を目指します。
+                        梼原を日本の森林イノベーション拠点へ。資源の新しい使い方を発信する全国のモデル地域を目指します。
                     </p>
                 </div>
 
                 <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-px bg-white/10 border border-white/10">
-                    <div class="p-12 bg-[#1a2f23] flex flex-col items-center text-center space-y-6">
+                    <div class="p-12 bg-[#1a2f23] space-y-6">
                         <div class="text-[#c5a059] text-xs font-bold font-mono">01 SPACE</div>
-                        <h4 class="serif text-lg uppercase tracking-widest">宇宙産業</h4>
-                        <p class="text-[10px] text-white/50 leading-loose">衛星データによる森林解析と木質系新素材の開発。</p>
+                        <h4 class="serif text-lg tracking-widest">宇宙産業</h4>
+                        <p class="text-[10px] text-white/50 leading-loose">衛星データによる森林精密解析、木質系新素材の宇宙開発活用。</p>
                     </div>
-                    <div class="p-12 bg-[#1a2f23] flex flex-col items-center text-center space-y-6">
+                    <div class="p-12 bg-[#1a2f23] space-y-6">
                         <div class="text-[#c5a059] text-xs font-bold font-mono">02 AI / IT</div>
-                        <h4 class="serif text-lg uppercase tracking-widest">テクノロジー</h4>
-                        <p class="text-[10px] text-white/50 leading-loose">ドローン・IoTによる精密林業と収穫計画の最適化。</p>
+                        <h4 class="serif text-lg tracking-widest">テクノロジー</h4>
+                        <p class="text-[10px] text-white/50 leading-loose">ドローン・IoTによる精密林業。収穫・施業計画のAI最適化。</p>
                     </div>
-                    <div class="p-12 bg-[#1a2f23] flex flex-col items-center text-center space-y-6">
+                    <div class="p-12 bg-[#1a2f23] space-y-6">
                         <div class="text-[#c5a059] text-xs font-bold font-mono">03 DESIGN</div>
-                        <h4 class="serif text-lg uppercase tracking-widest">建築・デザイン</h4>
-                        <p class="text-[10px] text-white/50 leading-loose">隈研吾氏に続く、革新的な木造建築と木使いの文化創造。</p>
+                        <h4 class="serif text-lg tracking-widest">建築・デザイン</h4>
+                        <p class="text-[10px] text-white/50 leading-loose">革新的な木造建築、生活に溶け込む木使い文化の再創造。</p>
                     </div>
-                    <div class="p-12 bg-[#1a2f23] flex flex-col items-center text-center space-y-6">
+                    <div class="p-12 bg-[#1a2f23] space-y-6">
                         <div class="text-[#c5a059] text-xs font-bold font-mono">04 FASHION</div>
-                        <h4 class="serif text-lg uppercase tracking-widest">ファッション</h4>
-                        <p class="text-[10px] text-white/50 leading-loose">サステナブルな繊維開発と木材由来の染料活用。</p>
+                        <h4 class="serif text-lg tracking-widest">ファッション</h4>
+                        <p class="text-[10px] text-white/50 leading-loose">木材由来のサステナブル繊維開発、伝統染料の現代的活用。</p>
                     </div>
-                    <div class="p-12 bg-[#1a2f23] flex flex-col items-center text-center space-y-6">
-                        <div class="text-[#c5a059] text-xs font-bold font-mono">05 INFRA</div>
-                        <h4 class="serif text-lg uppercase tracking-widest">化学・インフラ</h4>
-                        <p class="text-[10px] text-white/50 leading-loose">セルロースナノファイバーと地域エネルギーの循環。</p>
+                    <div class="p-12 bg-[#1a2f23] space-y-6">
+                        <div class="text-[#c5a059] text-xs font-bold font-mono">05 CHEMICAL</div>
+                        <h4 class="serif text-lg tracking-widest">化学・インフラ</h4>
+                        <p class="text-[10px] text-white/50 leading-loose">セルロースナノファイバー、地域エネルギー自給モデルの構築。</p>
                     </div>
-                </div>
-
-                <div class="mt-20 text-center">
-                    <a href="javascript:void(0)" onclick="showPage('join')" class="inline-block border border-[#c5a059] text-[#c5a059] px-12 py-4 text-xs tracking-[0.3em] hover:bg-[#c5a059] hover:text-[#1a2f23] transition-all">LAB PARTNER 募集</a>
                 </div>
             </div>
         </section>
@@ -201,48 +282,49 @@
         <section id="page-todo" class="page-section hidden pt-48 pb-32 px-6 md:px-24 max-w-5xl mx-auto page-transition">
             <div class="mb-20">
                 <span class="text-[10px] tracking-[0.4em] text-gray-400 block mb-6 uppercase">Inner Project Status</span>
-                <h2 class="text-4xl md:text-5xl serif">プロジェクト・ロードマップ</h2>
+                <h2 class="text-4xl md:text-5xl serif">今後のToDoリスト</h2>
+                <p class="text-xs text-gray-400 mt-4 tracking-widest">持続可能な森林・人づくりモデルの実装に向けて</p>
             </div>
 
-            <div class="space-y-12">
+            <div class="space-y-16">
                 <!-- Phase 1 -->
-                <div class="relative pl-12 border-l border-gray-200">
-                    <div class="absolute -left-1.5 top-0 w-3 h-3 bg-green-900 rounded-full"></div>
-                    <h3 class="text-xs tracking-widest font-bold mb-6 text-green-900">PHASE 1 : 推進体制の確立（The Container）</h3>
+                <div class="relative pl-12 border-l-2 border-green-900">
+                    <div class="absolute -left-[9px] top-0 w-4 h-4 bg-green-900 rounded-full border-4 border-[#f4f1ea]"></div>
+                    <h3 class="text-sm tracking-widest font-bold mb-8 text-green-900">PHASE 1 : 推進体制の確立（The Container）</h3>
                     <div class="grid md:grid-cols-2 gap-8">
-                        <div class="bg-white p-6 rounded-sm shadow-sm border border-gray-100">
-                            <p class="text-xs font-bold mb-4 flex items-center"><span class="w-2 h-2 bg-[#c5a059] rounded-full mr-3"></span>プロジェクト準備室</p>
-                            <p class="text-[10px] text-gray-500 leading-relaxed">アクション：計画策定、リソース確保、司令塔設置。<br>目的：行政・林業関係者との調整。</p>
+                        <div class="bg-white p-8 shadow-sm border border-gray-100">
+                            <p class="text-xs font-bold mb-4 flex items-center text-[#c5a059]">準備室の立ち上げ</p>
+                            <p class="text-[11px] text-gray-500 leading-relaxed">計画策定、リソース確保、司令塔設置。行政・林業関係者との調整と法人設立準備。</p>
                         </div>
-                        <div class="bg-white p-6 rounded-sm shadow-sm border border-gray-100 opacity-60">
-                            <p class="text-xs font-bold mb-4 flex items-center"><span class="w-2 h-2 bg-gray-300 rounded-full mr-3"></span>2つの法人の設立準備</p>
-                            <p class="text-[10px] text-gray-500 leading-relaxed">森林経営法人（営利）とファンド運営法人（非営利）の設立。経済循環の器づくり。</p>
+                        <div class="bg-white p-8 shadow-sm border border-gray-100 opacity-60 italic">
+                            <p class="text-xs font-bold mb-4 flex items-center text-gray-400 text-sm">2つの法人の設立</p>
+                            <p class="text-[11px] text-gray-500 leading-relaxed">森林経営法人（営利）とファンド運営法人（非営利）のガバナンス設計と登記。</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Phase 2 -->
-                <div class="relative pl-12 border-l border-gray-200">
-                    <div class="absolute -left-1.5 top-0 w-3 h-3 bg-gray-300 rounded-full"></div>
-                    <h3 class="text-xs tracking-widest font-bold mb-6 text-gray-400">PHASE 2 : 事業モデルと「出口」の設計（The Engine）</h3>
+                <div class="relative pl-12 border-l-2 border-gray-200">
+                    <div class="absolute -left-[9px] top-0 w-4 h-4 bg-gray-200 rounded-full border-4 border-[#f4f1ea]"></div>
+                    <h3 class="text-sm tracking-widest font-bold mb-8 text-gray-400">PHASE 2 : 事業モデルと「出口」の設計（The Engine）</h3>
                     <div class="grid md:grid-cols-2 gap-8">
-                        <div class="bg-white p-6 rounded-sm shadow-sm border border-gray-100">
+                        <div class="bg-white p-8 shadow-sm border border-gray-100">
                             <p class="text-xs font-bold mb-4">短期キャッシュフロー（CF）策定</p>
-                            <p class="text-[10px] text-gray-500 leading-relaxed">高付加価値な短期伐採材（アロマ等）や企業研修プログラムの具体化。</p>
+                            <p class="text-[11px] text-gray-500 leading-relaxed">高付加価値な短期伐採材（アロマ等）、森林環境税、企業研修受入の具体化。</p>
                         </div>
-                        <div class="bg-white p-6 rounded-sm shadow-sm border border-gray-100">
+                        <div class="bg-white p-8 shadow-sm border border-gray-100">
                             <p class="text-xs font-bold mb-4">森林経営計画の再構築</p>
-                            <p class="text-[10px] text-gray-500 leading-relaxed">伐採・植林の一貫管理。再造林率70%達成へのロードマップ策定。</p>
+                            <p class="text-[11px] text-gray-500 leading-relaxed">2029年までに再造林率70%を達成するための詳細なロードマップ策定。</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Phase 3/4 -->
-                <div class="relative pl-12 border-l border-gray-200">
-                    <div class="absolute -left-1.5 top-0 w-3 h-3 bg-gray-300 rounded-full"></div>
-                    <h3 class="text-xs tracking-widest font-bold mb-6 text-gray-400">PHASE 3 & 4 : 資金調達と人材育成（The Fuel & People）</h3>
-                    <div class="bg-white p-10 border border-dashed border-gray-300 rounded-sm">
-                        <p class="text-xs text-gray-400 text-center uppercase tracking-widest italic">Upcoming Milestone: 地域森林ファンドの設計 & 森林づくり大学の開発</p>
+                <div class="relative pl-12 border-l-2 border-gray-100">
+                    <div class="absolute -left-[9px] top-0 w-4 h-4 bg-gray-200 rounded-full border-4 border-[#f4f1ea]"></div>
+                    <h3 class="text-sm tracking-widest font-bold mb-8 text-gray-400">PHASE 3 & 4 : 資金調達と人材育成（The Fuel & People）</h3>
+                    <div class="bg-white/50 p-10 border border-dashed border-gray-300 text-center">
+                        <p class="text-xs text-gray-400 uppercase tracking-widest italic">Next Milestone: 地域森林ファンドの設計 & 森林づくり大学のカリキュラム開発</p>
                     </div>
                 </div>
             </div>
@@ -253,32 +335,32 @@
             <div class="max-w-7xl mx-auto">
                 <div class="grid lg:grid-cols-2 gap-px bg-gray-200 border border-gray-200">
                     <!-- For Investors -->
-                    <div class="bg-white p-16 md:p-24 space-y-8">
-                        <span class="text-[10px] tracking-[0.4em] text-[#c5a059] font-bold block uppercase">For Investors & Sponsors</span>
-                        <h2 class="text-4xl serif leading-tight">未来への投資。</h2>
+                    <div class="bg-white p-16 md:p-24 space-y-10">
+                        <span class="text-[10px] tracking-[0.4em] text-[#c5a059] font-bold block uppercase">For Investors</span>
+                        <h2 class="text-4xl serif leading-tight">100年後の資産。</h2>
                         <p class="text-sm text-gray-600 leading-loose">
-                            ESG投資、企業版ふるさと納税、またはファンドへの直接寄付を通じて、100年先を見据えた持続可能な地域創生のモデル構築にご参画ください。単なる「寄付」ではなく、日本の森林インフラを再定義するプロジェクトへの投資です。
+                            ESG投資、企業版ふるさと納税、ファンドへの直接寄付。私たちは森林を、未来の日本を支える超長期インフラとして再構築します。単なる寄付ではない、社会変革への投資。
                         </p>
                         <div class="pt-8">
-                            <a href="mailto:invest@yusuhara-forest.jp" class="inline-block bg-[#1a2f23] text-white px-10 py-5 text-xs tracking-widest hover:opacity-80 transition-all shadow-xl">投資・協賛のお問い合わせ</a>
+                            <a href="mailto:invest@yusuhara-forest.jp" class="inline-block bg-[#1a2f23] text-white px-12 py-5 text-[10px] tracking-widest hover:opacity-80 transition-all shadow-xl font-bold uppercase">Contact for Investment</a>
                         </div>
                     </div>
                     <!-- For Talents -->
-                    <div class="bg-[#f4f1ea] p-16 md:p-24 space-y-8">
-                        <span class="text-[10px] tracking-[0.4em] text-[#c5a059] font-bold block uppercase">For Strategic Partners & Supporters</span>
-                        <h2 class="text-4xl serif leading-tight">知恵の集積。</h2>
+                    <div class="bg-[#f4f1ea] p-16 md:p-24 space-y-10">
+                        <span class="text-[10px] tracking-[0.4em] text-[#c5a059] font-bold block uppercase">For Strategic Partners</span>
+                        <h2 class="text-4xl serif leading-tight">知恵の集積地。</h2>
                         <p class="text-sm text-gray-600 leading-loose">
-                            プロボノ、兼業・副業、またはイノベーション・ラボのパートナー企業として。あなたの専門知識を梼原の森で活かしませんか？宇宙産業からファッションまで、領域を超えたプロジェクトが始動しています。
+                            プロボノ、兼業・副業、イノベーション・ラボへの参画。全国の多様な知見を梼原に集め、関係人口として共に森を育ててください。あなたの専門性が、森の出口を作ります。
                         </p>
                         <div class="pt-8">
-                            <a href="mailto:join@yusuhara-forest.jp" class="inline-block border border-[#1a2f23] text-[#1a2f23] px-10 py-5 text-xs tracking-widest hover:bg-[#1a2f23] hover:text-white transition-all">プロジェクトに参画する</a>
+                            <a href="mailto:join@yusuhara-forest.jp" class="inline-block border border-[#1a2f23] text-[#1a2f23] px-12 py-5 text-[10px] tracking-widest hover:bg-[#1a2f23] hover:text-white transition-all font-bold uppercase">Apply for Partnership</a>
                         </div>
                     </div>
                 </div>
 
-                <div class="mt-20 flex flex-col items-center">
-                    <p class="text-[10px] tracking-[0.5em] text-gray-400 uppercase mb-8">Official Contact</p>
-                    <p class="text-2xl serif">contact@yusuhara-forest.jp</p>
+                <div class="mt-24 text-center">
+                    <p class="text-[10px] tracking-[0.5em] text-gray-400 uppercase mb-8">Official Inquiry</p>
+                    <p class="text-2xl serif border-b border-gray-200 inline-block pb-2">contact@yusuhara-forest.jp</p>
                 </div>
             </div>
         </section>
@@ -286,18 +368,15 @@
     </main>
 
     <!-- Footer -->
-    <footer class="py-24 px-6 border-t border-gray-200 bg-[#1a2f23] text-white">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center space-y-12 md:space-y-0">
-            <div class="flex flex-col items-center md:items-start">
-                <div class="serif text-2xl font-bold tracking-tighter mb-4">YUSUHARA FOREST</div>
-                <p class="text-[10px] tracking-[0.4em] text-white/40 uppercase">100-Year Forestry & People Project</p>
+    <footer class="py-24 px-6 bg-[#1a2f23] text-white">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center space-y-12 md:space-y-0 text-[9px] tracking-[0.3em] font-bold">
+            <div class="serif text-2xl tracking-tighter">YUSUHARA FOREST</div>
+            <div class="flex space-x-12 uppercase text-white/50">
+                <a href="#" class="hover:text-white transition-all">Document</a>
+                <a href="#" class="hover:text-white transition-all">Project Log</a>
+                <a href="#" class="hover:text-white transition-all">Privacy Policy</a>
             </div>
-            <div class="flex space-x-12 text-[10px] tracking-[0.3em] font-bold">
-                <a href="#" class="hover:text-[#c5a059] transition-all uppercase">Document</a>
-                <a href="#" class="hover:text-[#c5a059] transition-all uppercase">News</a>
-                <a href="#" class="hover:text-[#c5a059] transition-all uppercase">Inquiry</a>
-            </div>
-            <div class="text-[9px] text-white/30 uppercase tracking-[0.3em] font-light">&copy; 2024 YUSUHARA FOREST PROJECT</div>
+            <div class="text-white/20 uppercase font-light">&copy; 2024 YUSUHARA FOREST PROJECT</div>
         </div>
     </footer>
 
@@ -306,19 +385,16 @@
         function showPage(pageId) {
             closeMobileMenu();
 
-            // Hide all sections
             document.querySelectorAll('.page-section').forEach(section => {
                 section.classList.add('hidden');
             });
 
-            // Show target section
             const target = document.getElementById('page-' + pageId);
             if (target) {
                 target.classList.remove('hidden');
                 window.scrollTo({ top: 0, behavior: 'instant' });
             }
 
-            // Update Navigation Style
             updateNavStyle(pageId);
         }
 
@@ -335,7 +411,6 @@
             }
         }
 
-        // --- Mobile Menu ---
         const menuToggle = document.getElementById('menu-toggle');
         const mobileMenu = document.getElementById('mobile-menu');
         const closeMenu = document.getElementById('close-menu');
@@ -352,7 +427,6 @@
 
         closeMenu.addEventListener('click', closeMobileMenu);
 
-        // --- Loader Logic ---
         window.addEventListener('load', () => {
             const loader = document.getElementById('loader');
             setTimeout(() => {
@@ -362,7 +436,6 @@
             }, 800);
         });
 
-        // --- Navbar Scroll Logic ---
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
             const currentSection = document.querySelector('.page-section:not(.hidden)');
