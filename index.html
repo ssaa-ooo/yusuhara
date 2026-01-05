@@ -1,81 +1,269 @@
 <!DOCTYPE html>
-
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>未来への投資：梼原100年の森林プロジェクト</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>梼原町 | 森と建築が響き合う、雲の上の町</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --forest-green: #1a2f23;
+            --wood-beige: #f4f1ea;
+            --deep-accent: #2c4a39;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: var(--wood-beige);
+            color: var(--forest-green);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .serif {
+            font-family: 'Noto Serif JP', serif;
+        }
+
+        .hero-zoom {
+            animation: slowZoom 20s infinite alternate;
+        }
+
+        @keyframes slowZoom {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -4px;
+            left: 0;
+            background-color: currentColor;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* スムーススクロール */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* 縦書きテキストの装飾 */
+        .vertical-text {
+            writing-mode: vertical-rl;
+            letter-spacing: 0.2em;
+        }
+
+        /* カスタムスクロールバー */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--wood-beige);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--forest-green);
+        }
+    </style>
 </head>
 <body>
 
-<header>
-<a href="index.html" class="logo">YUSUHARA 100-YEAR FOREST</a>
-<nav>
-<a href="roadmap.html">Roadmap</a>
-<a href="investment.html">Investment</a>
-<a href="lab.html">Innovation Lab</a>
-<a href="index.html#contact">Contact</a>
-</nav>
-</header>
-
-<main>
-<div class="hero">
-<h1>森林づくりは、
-
-
-
-人づくり。</h1>
-<p>梼原の森を、環境・経済・教育が循環する
-
-
-
-「100年続く価値創造プラットフォーム」へ。</p>
-<div style="margin-top: 3rem; display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
-<a href="investment.html" class="btn btn-primary">資金調達に参画する</a>
-<a href="lab.html" class="btn btn-secondary" style="background: rgba(255,255,255,0.1); color: white; border-color: white;">ラボに参画する</a>
-</div>
-</div>
-
-<section class="container">
-    <div style="text-align: center; margin-bottom: 4rem;">
-        <span style="color: var(--accent-wood); font-weight: bold; letter-spacing: 0.2em; font-size: 0.8rem;">OUR VISION</span>
-        <h2 style="font-family: 'Noto Serif JP', serif; margin-top: 1rem;">100年先へ繋ぐ、森のエコシステム</h2>
-    </div>
-    
-    <div class="grid">
-        <div class="card">
-            <h3>超長期投資モデル</h3>
-            <p>木が育つのをただ待つのではなく、人間の知恵で価値を創造し続ける「神山まるごと高専」の思想を林業へ応用。次世代への恒久的な教育と経済の基盤を築きます。</p>
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-8 py-6 transition-all duration-500" id="navbar">
+        <div class="text-2xl font-bold tracking-tighter serif">YUSUHARA</div>
+        <div class="hidden md:flex space-x-12 text-sm font-medium tracking-widest">
+            <a href="#about" class="nav-link relative">ABOUT</a>
+            <a href="#architecture" class="nav-link relative">ARCHITECTURE</a>
+            <a href="#forest" class="nav-link relative">FOREST</a>
+            <a href="#access" class="nav-link relative">ACCESS</a>
         </div>
-        <div class="card">
-            <h3>多面的な価値創造</h3>
-            <p>木材生産という単一の経済価値を超え、環境・社会・文化・イノベーションが相互に作用。100年後も成長し続ける地域循環の設計図を描きます。</p>
+        <div class="md:hidden">
+            <button id="menu-btn" class="focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
         </div>
-    </div>
-</section>
+    </nav>
 
-<section style="background-color: var(--primary-forest); color: white; padding: 100px 5%; text-align: center;">
-    <div class="container" style="padding: 0;">
-        <h2 style="color: white; font-family: 'Noto Serif JP', serif;">再生率 13% からの挑戦</h2>
-        <p style="max-width: 700px; margin: 2rem auto; opacity: 0.8;">梼原の森のサイクルは今、止まりかけています。私たちは2029年までに再造林率70%を達成し、再び森が人を育てる環境を取り戻します。</p>
-        <a href="roadmap.html" class="btn" style="color: white; border: 1px solid rgba(255,255,255,0.3);">プロジェクトの全容を確認する</a>
-    </div>
-</section>
+    <!-- Hero Section -->
+    <section class="relative h-screen w-full overflow-hidden flex items-center justify-center">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&q=80&w=2000" alt="Forest" class="w-full h-full object-cover hero-zoom">
+            <div class="absolute inset-0 bg-black/30"></div>
+        </div>
+        
+        <div class="relative z-10 text-white text-center">
+            <p class="text-sm tracking-[0.5em] mb-6 reveal">KOCHI / JAPAN</p>
+            <h1 class="text-5xl md:text-8xl font-bold mb-8 leading-tight reveal">雲の上の町、<br>梼原。</h1>
+            <p class="text-lg md:text-xl font-light tracking-widest reveal">森と人が共生する、未来の原風景</p>
+        </div>
 
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center">
+            <span class="text-[10px] tracking-[0.3em] text-white/70 mb-4 uppercase">Scroll Down</span>
+            <div class="w-[1px] h-16 bg-gradient-to-b from-white to-transparent"></div>
+        </div>
+    </section>
 
-</main>
+    <!-- Intro Section -->
+    <section id="about" class="py-32 px-8 md:px-24 max-w-7xl mx-auto grid md:grid-cols-2 gap-20 items-center">
+        <div class="reveal">
+            <h2 class="text-4xl md:text-5xl mb-10 leading-snug">木漏れ日が導く、<br>新しい知恵。</h2>
+            <p class="text-gray-600 leading-relaxed mb-8">
+                梼原町は、高知県の最西端、愛媛県との県境に位置する人口約3,000人の小さな町です。町面積の91%を森林が占めるこの場所で、私たちは「森」とともに生きる知恵を紡いできました。
+            </p>
+            <p class="text-gray-600 leading-relaxed">
+                世界的建築家・隈研吾氏との出会いから生まれた木造建築の数々は、ただの構造物ではなく、この土地の記憶を未来へと繋ぐ装置です。
+            </p>
+        </div>
+        <div class="relative reveal h-[500px]">
+            <img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&q=80&w=1000" alt="Yusuhara Forest" class="w-full h-full object-cover rounded-sm shadow-2xl">
+            <div class="absolute -bottom-6 -right-6 md:block hidden">
+                <div class="bg-white p-10 shadow-xl">
+                    <p class="serif text-3xl font-bold">91%</p>
+                    <p class="text-[10px] tracking-widest uppercase">Forest Area</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<footer>
-<div class="footer-content">
-<h3 style="font-family: 'Noto Serif JP', serif; margin-bottom: 2rem;">Contact</h3>
-<p>未来の産業と、持続可能な地域創生を、梼原から共に創りましょう。</p>
-<p style="font-size: 1.2rem; margin-top: 1.5rem; letter-spacing: 0.05em;">contact@yusuhara-forest.jp</p>
-<div style="margin-top: 4rem; font-size: 0.7rem; opacity: 0.5; letter-spacing: 0.1em;">
-&copy; 2026 梼原100年の森林・人づくりプロジェクト
-</div>
-</div>
-</footer>
+    <!-- Architecture Section -->
+    <section id="architecture" class="bg-[#1a2f23] text-white py-32 overflow-hidden">
+        <div class="px-8 md:px-24 mb-20 flex justify-between items-end">
+            <div class="reveal">
+                <span class="text-xs tracking-[0.4em] text-white/50 block mb-4 uppercase">Projects</span>
+                <h2 class="text-4xl md:text-6xl font-bold italic serif">Architecture</h2>
+            </div>
+            <a href="#" class="text-xs tracking-widest border-b border-white/30 pb-2 hover:border-white transition-all reveal">VIEW ALL</a>
+        </div>
 
+        <div class="flex flex-nowrap overflow-x-auto gap-8 px-8 md:px-24 pb-10 scrollbar-hide no-scrollbar">
+            <!-- Architecture Card 1 -->
+            <div class="min-w-[300px] md:min-w-[600px] group cursor-pointer reveal">
+                <div class="overflow-hidden mb-6 aspect-[16/9]">
+                    <img src="https://images.unsplash.com/photo-1511497584788-8767fe771d85?auto=format&fit=crop&q=80&w=1000" alt="Cloud Market" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                </div>
+                <p class="text-xs text-white/50 mb-2 font-mono">01</p>
+                <h3 class="text-2xl mb-2">雲の上のギャラリー</h3>
+                <p class="text-sm text-white/70 font-light">伝統的な組木構造を用いた、森と建築の境界線。</p>
+            </div>
+            <!-- Architecture Card 2 -->
+            <div class="min-w-[300px] md:min-w-[600px] group cursor-pointer reveal">
+                <div class="overflow-hidden mb-6 aspect-[16/9]">
+                    <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=1000" alt="Town Hall" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                </div>
+                <p class="text-xs text-white/50 mb-2 font-mono">02</p>
+                <h3 class="text-2xl mb-2">梼原町総合庁舎</h3>
+                <p class="text-sm text-white/70 font-light">地元の杉材をふんだんに使用した、開かれた庁舎。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Concept Section -->
+    <section id="forest" class="py-32 px-8 md:px-24">
+        <div class="max-w-4xl mx-auto text-center reveal">
+            <span class="text-xs tracking-[0.4em] text-gray-400 block mb-6 uppercase">Philosophy</span>
+            <h2 class="text-3xl md:text-5xl mb-12 leading-relaxed serif">
+                森を切り拓くのではなく、<br>
+                森の中に居場所を借りる。
+            </h2>
+            <div class="w-12 h-[1px] bg-gray-300 mx-auto mb-12"></div>
+            <p class="text-gray-500 leading-loose max-w-2xl mx-auto">
+                私たちは、先人たちが守り抜いてきたこの豊かな森を、ただ消費する対象とは考えません。循環させ、守り、共存する。そのための「木」の使い方、そのための「暮らし」のあり方を、梼原から世界へ発信しています。
+            </p>
+        </div>
+    </section>
+
+    <!-- Contact/Access -->
+    <section id="access" class="py-32 px-8 bg-white border-t border-gray-100">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-20">
+            <div class="reveal">
+                <h2 class="text-4xl mb-12 serif">Access</h2>
+                <div class="space-y-8 text-sm tracking-wide">
+                    <div>
+                        <p class="font-bold mb-2 uppercase">Location</p>
+                        <p class="text-gray-600">〒785-0695 高知県高岡郡梼原町梼原1444番地1</p>
+                    </div>
+                    <div>
+                        <p class="font-bold mb-2 uppercase">By Car</p>
+                        <p class="text-gray-600">高知市より車で約1時間30分<br>松山市より車で約1時間40分</p>
+                    </div>
+                    <div>
+                        <p class="font-bold mb-2 uppercase">Inquiry</p>
+                        <p class="text-gray-600">TEL: 0889-65-1111</p>
+                    </div>
+                </div>
+            </div>
+            <div class="reveal">
+                <div class="w-full h-[400px] bg-gray-100 grayscale hover:grayscale-0 transition-all duration-1000 overflow-hidden relative group">
+                    <!-- 実際にはGoogle Maps埋め込みなど -->
+                    <div class="absolute inset-0 flex items-center justify-center bg-[#f4f1ea]">
+                        <p class="text-xs tracking-widest text-gray-400 uppercase">Interactive Map Coming Soon</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-20 px-8 text-center bg-[#1a2f23] text-white/50">
+        <p class="text-sm tracking-[0.5em] mb-8 font-bold text-white">YUSUHARA</p>
+        <div class="flex justify-center space-x-6 mb-12 text-xs tracking-widest">
+            <a href="#" class="hover:text-white">INSTAGRAM</a>
+            <a href="#" class="hover:text-white">FACEBOOK</a>
+            <a href="#" class="hover:text-white">TWITTER</a>
+        </div>
+        <p class="text-[10px] tracking-widest">&copy; 2024 YUSUHARA TOWN. ALL RIGHTS RESERVED.</p>
+    </footer>
+
+    <script>
+        // Scroll Animations (Reveal on scroll)
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-[#f4f1ea]/90', 'backdrop-blur-md', 'shadow-sm', 'py-4');
+                navbar.classList.remove('py-6');
+            } else {
+                navbar.classList.remove('bg-[#f4f1ea]/90', 'backdrop-blur-md', 'shadow-sm', 'py-4');
+                navbar.classList.add('py-6');
+            }
+        });
+
+        // Mobile Menu Logic (Minimal implementation)
+        const menuBtn = document.getElementById('menu-btn');
+        menuBtn.addEventListener('click', () => {
+            // Simple overlay logic could be added here
+            console.log("Menu clicked");
+        });
+    </script>
 </body>
 </html>
