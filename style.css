@@ -1,34 +1,109 @@
+/* yusuhara-project / style.css */
+
+/* 変数設定：ブランドカラー */
 :root {
-    --primary: #2d5a27; /* 森林の緑 */
-    --secondary: #8d6e63; /* 大地の茶 */
-    --bg: #fdfaf5; /* 柔らかなベージュ */
-    --text: #333;
+    --primary-green: #2d5a27;   /* 梼原の深い森 */
+    --earth-brown: #795548;     /* 大地・木材 */
+    --soft-beige: #fdfaf5;      /* 信頼と温かみ */
     --white: #ffffff;
-    --accent: #e67e22; /* 活動的なオレンジ */
+    --text-main: #333333;
+    --accent-orange: #e67e22;   /* イノベーション・活力 */
 }
 
+/* 全体レイアウト */
 body {
-    font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", sans-serif;
-    margin: 0; background-color: var(--bg); color: var(--text); line-height: 1.7;
+    font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
+    line-height: 1.8;
+    color: var(--text-main);
+    background-color: var(--soft-beige);
+    margin: 0;
+    padding: 0;
 }
 
+/* ヘッダー */
 header {
-    background: var(--white); padding: 1rem 5%; display: flex; 
-    justify-content: space-between; align-items: center;
-    position: sticky; top: 0; box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 100;
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 1rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
-nav a { text-decoration: none; color: var(--text); margin-left: 20px; font-weight: bold; }
-nav a:hover { color: var(--primary); }
-
-.container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
-.btn { 
-    display: inline-block; padding: 12px 24px; border-radius: 4px; 
-    text-decoration: none; font-weight: bold; transition: 0.3s;
+.logo {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--primary-green);
+    text-decoration: none;
 }
-.btn-primary { background: var(--primary); color: var(--white); }
-.btn-secondary { background: var(--secondary); color: var(--white); }
 
-section { margin-bottom: 60px; }
-h1, h2 { color: var(--primary); }
-footer { background: var(--primary); color: var(--white); text-align: center; padding: 40px; }
+nav a {
+    text-decoration: none;
+    color: var(--text-main);
+    margin-left: 25px;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+nav a:hover { color: var(--primary-green); }
+
+/* ヒーローセクション */
+.hero {
+    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=2000');
+    background-size: cover;
+    background-position: center;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--white);
+    padding: 0 5%;
+}
+
+.hero h1 { font-size: 3rem; margin-bottom: 1rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+.hero p { font-size: 1.3rem; max-width: 800px; margin-bottom: 2.5rem; }
+
+/* ボタン */
+.btn {
+    display: inline-block;
+    padding: 15px 35px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.btn-primary { background-color: var(--primary-green); color: var(--white); }
+.btn-secondary { background-color: var(--earth-brown); color: var(--white); }
+.btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+
+/* セクション設定 */
+section { padding: 80px 5%; max-width: 1100px; margin: auto; }
+h2 { 
+    text-align: center; 
+    font-size: 2rem; 
+    margin-bottom: 50px; 
+    color: var(--primary-green);
+}
+
+/* 2カラムグリッド */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+}
+
+/* フッター */
+footer {
+    background-color: var(--primary-green);
+    color: var(--white);
+    padding: 60px 5%;
+    text-align: center;
+}
